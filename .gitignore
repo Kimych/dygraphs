@@ -1,3 +1,5 @@
+.idea/
+src-es5/
 jsdoc
 docs/options.html
 node_modules

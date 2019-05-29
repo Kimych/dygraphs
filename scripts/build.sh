@@ -55,3 +55,6 @@ babel src -d src-es5 --compact false
 # Remove temp files.
 rm dist/dygraph.tmp.js
 rm dist/dygraph.tmp.js.map
+
+# Copy files into SARA20 project
+cp dist/dygraph.js /home/xuser/sara20/repo/web-interface/public/js/dygraph.min.js
