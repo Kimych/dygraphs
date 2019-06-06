@@ -52,6 +52,7 @@ DygraphInteraction.maybeTreatMouseOpAsClick = function(event, g, context) {
   context.regionHeight = regionHeight;
 };
 
+
 /**
  * Called in response to an interaction model operation that
  * should start the default panning behavior.
@@ -585,16 +586,31 @@ DygraphInteraction.endTouch = function(event, g, context) {
         context.doubleTapX && Math.abs(context.doubleTapX - t.screenX) < 50 &&
         context.doubleTapY && Math.abs(context.doubleTapY - t.screenY) < 50) {
       g.resetZoom();
+      context.lastTouch = null;
     } else {
       if (context.lastTouch !== null){
+
+        // highlight touched point
         event.isTouchOver = true;
         g.mouseMoveHandler_(event);
+
+        // check conditions for clickCallback
+        var canvasPos = utils.findPos(g.canvas_);
+        context.px = canvasPos.x;
+        context.py = canvasPos.y;
+        context.dragEndX = utils.dragGetX_(event, context);
+        context.dragEndY = utils.dragGetY_(event, context);
         DygraphInteraction.treatMouseOpAsClick(g, event, context);
+
+        // finish touch events
+        context.lastTouch = null;
+        event.isTouchOver = false;
       }
 
       context.startTimeForDoubleTapMs = now;
       context.doubleTapX = t.screenX;
       context.doubleTapY = t.screenY;
+
     }
   }
 };
